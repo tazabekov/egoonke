@@ -4,15 +4,29 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const { v4: uuidV4 } = require('uuid');
 const { ExpressPeerServer } = require('peer');
+const handlebars = require('express-handlebars');
 
 const peerServer = ExpressPeerServer(server, {
   path: '/'
 });
 
-app.set('view engine', 'ejs');
+app.engine('hbs', handlebars({
+  layoutsDir: __dirname + '/views/layouts',
+  extname: 'hbs'
+}));
+
+app.set('view engine', 'hbs');
+
 app.use(express.static('public'));
 app.get('/', (req, resp) => {
-  resp.redirect(`/${uuidV4()}`);
+  const randomRoomId = `/${uuidV4()}`;
+  let redirectUrl;
+  if (process.env.NODE_ENV === 'production'){
+    redirectUrl = 'https://' + req.headers.host + randomRoomId;
+  } else {
+    redirectUrl = randomRoomId;
+  }
+  resp.redirect(redirectUrl);
 });
 
 app.use('/peerjs', peerServer);

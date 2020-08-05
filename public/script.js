@@ -37,7 +37,7 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', userId => {
-  socket.emit('join-room', roomId, userId);
+  socket.emit('join-room', window.roomId || window.location.pathname.substr(1), userId);
 });
 
 function addVideoStream(video, stream) {
