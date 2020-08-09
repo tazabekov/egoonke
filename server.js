@@ -18,21 +18,25 @@ app.engine('hbs', handlebars({
 app.set('view engine', 'hbs');
 
 app.use(express.static('public'));
-app.get('/', (req, resp) => {
-  const randomRoomId = `/${uuidV4()}`;
+app.get('/rooms', (req, resp) => {
+  const randomRoomId = uuidV4();
   let redirectUrl;
   if (process.env.NODE_ENV === 'production'){
-    redirectUrl = 'https://' + req.headers.host + randomRoomId;
+    redirectUrl = `https://${req.headers.host}/rooms/${randomRoomId}`;
   } else {
-    redirectUrl = randomRoomId;
+    redirectUrl = `/rooms/${randomRoomId}`;
   }
   resp.redirect(redirectUrl);
 });
 
 app.use('/peerjs', peerServer);
 
-app.get('/:room', (req, resp) => {
+app.get('/rooms/:room', (req, resp) => {
   resp.render('room', { roomId: req.params.room });
+});
+
+app.get('/', (req, resp) => {
+  resp.render('home');
 });
 
 io.on('connection', socket => {
