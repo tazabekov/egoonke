@@ -1,6 +1,9 @@
 const videoGrid = document.getElementById('video-grid');
 const myVideo = document.createElement('video');
 myVideo.muted = true;
+myVideo.setAttribute('autoplay', '');
+myVideo.setAttribute('muted', '');
+myVideo.setAttribute('playsinline', '');
 
 if (navigator.mediaDevices) {
   navigator.mediaDevices.getUserMedia({
