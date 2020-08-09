@@ -30,6 +30,9 @@ app.get('/rooms', (req, resp) => {
 });
 
 app.use('/peerjs', peerServer);
+app.get('/ios', (req, resp) => {
+  resp.render('ios');
+});
 
 app.get('/rooms/:room', (req, resp) => {
   resp.render('room', { roomId: req.params.room });
