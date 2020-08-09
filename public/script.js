@@ -10,26 +10,28 @@ const myVideo = document.createElement('video');
 myVideo.muted = true;
 const peers = {};
 
-navigator.mediaDevices.getUserMedia({
-  video: true,
-  audio: true
-}).then(stream => {
-  addVideoStream(myVideo, stream);
+if (navigator.mediaDevices) {
+  navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+  }).then(stream => {
+    addVideoStream(myVideo, stream);
 
-  myPeer.on('call', call => {
-    console.log('peer-got-call:', `${userId}`.substr(0,5));
-    call.answer(stream);
-    const videoElFromUser = document.createElement('video');
-    call.on('stream', userVideoStream => {
-      addVideoStream(videoElFromUser, userVideoStream);
+    myPeer.on('call', call => {
+      console.log('peer-got-call:', `${userId}`.substr(0,5));
+      call.answer(stream);
+      const videoElFromUser = document.createElement('video');
+      call.on('stream', userVideoStream => {
+        addVideoStream(videoElFromUser, userVideoStream);
+      });
+    });
+
+    socket.on('user-connected', userId => {
+      console.log('user-connected:', `${userId}`.substr(0,5));
+      connectToNewUser(userId, stream);
     });
   });
-
-  socket.on('user-connected', userId => {
-    console.log('user-connected:', `${userId}`.substr(0,5));
-    connectToNewUser(userId, stream);
-  });
-});
+}
 
 socket.on('user-disconnected', userId => {
   console.log('user-disconnected:', `${userId}`.substr(0,5));
