@@ -59,7 +59,6 @@ function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
   const videoElementFromUser = document.createElement('video');
   videoElementFromUser.setAttribute('autoplay', '');
-  videoElementFromUser.setAttribute('muted', '');
   videoElementFromUser.setAttribute('playsinline', '');
   call.on('stream', userVideoStream => {
     addVideoStream(videoElementFromUser, userVideoStream);
