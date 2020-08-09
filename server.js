@@ -35,9 +35,6 @@ app.get('/ios', (req, resp) => {
 });
 
 app.get('/rooms/:room', (req, resp) => {
-  if (process.env.NODE_ENV === 'production' && req.protocol === 'http'){
-    resp.redirect(`https://${req.get('host') + req.originalUrl}`);
-  }
   resp.render('room', { roomId: req.params.room });
 });
 
