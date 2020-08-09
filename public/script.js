@@ -21,7 +21,6 @@ if (navigator.mediaDevices) {
     addVideoStream(myVideo, stream);
 
     myPeer.on('call', call => {
-      console.log('peer-got-call:', `${userId}`.substr(0,5));
       call.answer(stream);
       const videoElFromUser = document.createElement('video');
       call.on('stream', userVideoStream => {
