@@ -13,5 +13,7 @@ if (navigator.mediaDevices) {
       myVideo.play();
     });
     videoGrid.append(myVideo);
+  }).catch((e) => {
+    console.log(e);
   });
 }
