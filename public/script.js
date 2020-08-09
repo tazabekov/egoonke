@@ -8,6 +8,9 @@ const myPeer = new Peer(undefined, {
 
 const myVideo = document.createElement('video');
 myVideo.muted = true;
+myVideo.setAttribute('autoplay', '');
+myVideo.setAttribute('muted', '');
+myVideo.setAttribute('playsinline', '');
 const peers = {};
 
 if (navigator.mediaDevices) {
